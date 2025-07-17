@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import UserContext from './UserContext'; // Make sure this path is correct
+import UserContext from '../UserContext'; // Make sure this path is correct
 
 function UserDetails() {
   const userData = useContext(UserContext); // ✅ Use useContext properly
