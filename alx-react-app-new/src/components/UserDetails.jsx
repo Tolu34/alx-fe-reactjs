@@ -1,13 +1,16 @@
-import React, { UserContext } from 'react';
-//import UserContext from '../../../alx-react-app-props/src/components/UserContext';
+import React, { useContext } from 'react';
+import UserContext from './UserContext'; // Make sure this path is correct
 
 function UserDetails() {
-    //const userData = UserContext(UserContext);
+  const userData = useContext(UserContext); // ✅ Use useContext properly
 
-    return (
-        <div>
-            <p>Name: {userData.name}</p>
-            <p>Email: {userData.email}</p>
-        </div>
-    );
+  return (
+    <div style={{ border: '2px solid #eee', padding: '15px', margin: '10px', borderRadius: '8px' }}>
+      <h2>User Details</h2>
+      <p><strong>Name:</strong> {userData.name}</p>
+      <p><strong>Email:</strong> {userData.email}</p>
+    </div>
+  );
 }
+
+export default UserDetails;
