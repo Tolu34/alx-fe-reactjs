@@ -11,10 +11,13 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
+  const userData = { name: "Tolulope Akinwale", email: "rebeccatolulope2@gmail.com"}
   const [count, setCount] = useState(0)
 
   return (
     <>
+   
+      
     <WelcomeMessage />
     <Header />
       <MainContent />
