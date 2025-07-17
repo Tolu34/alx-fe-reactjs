@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ProfilePage from './ProfilePage'; 
+import ProfilePage from './components/ProfilePage'; 
 import UserContext from './UserContext';
 import WelcomeMessage from './components/WelcomeMessage';
 import UserProfile from './components/UserProfile';
