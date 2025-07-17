@@ -1,8 +1,8 @@
 import React, { UserContext } from 'react';
-import UserContext from './UserContext';
+//import UserContext from '../../../alx-react-app-props/src/components/UserContext';
 
 function UserDetails() {
-    const userData = UserContext(UserContext);
+    //const userData = UserContext(UserContext);
 
     return (
         <div>

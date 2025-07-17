@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ProfilePage from './components/ProfilePage'; 
-import UserContext from './UserContext';
+import UserContext from './components/UserContext';
 import WelcomeMessage from './components/WelcomeMessage';
 import UserProfile from './components/UserProfile';
 import Counter from './components/Counter';
