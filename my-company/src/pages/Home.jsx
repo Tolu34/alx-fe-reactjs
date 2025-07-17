@@ -7,4 +7,4 @@ function Home() {
     );
 }
 
-export defaultHome;
+export default Home;
