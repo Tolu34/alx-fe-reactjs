@@ -1,22 +1,45 @@
-import { useState } from "react";
-import useRecipeStore from "./recipeStore";
+import { useState } from 'react';
+import useRecipeStore from '../store/recipeStore';
 
-const EditRecipeForm = ({recipe}) => {
-    const updateRecipe = useRecipeStore(state => state.updateRecipe);
-    const [title, setTitle] = useState(recipe.title);
-    const [decription, setDescription] = useState(recipe.decription);
+const EditRecipeForm = ({ recipe }) => {
+  const [title, setTitle] = useState(recipe.title);
+  const [description, setDescription] = useState(recipe.description);
+  const updateRecipe = useRecipeStore(state => state.updateRecipe);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        updateRecipe({ ...recipe, title, decription });
-    };
+  const handleSubmit = (event) => {
+    event.preventDefault(); // ✅ prevents page reload
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input value={title} onChange={(e) => setTitle(e.target.value)} />
-            <textarea value={descriptiom} onChange={(e) => setDescription(e.target.value)} />
-            <button type="submit">Update</button>
-        </form>
-    );
+    updateRecipe({
+      ...recipe,
+      title,
+      description,
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mb-4">
+      <div>
+        <label>Title:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          className="border p-2 w-full mb-2"
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <textarea
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          className="border p-2 w-full mb-2"
+        />
+      </div>
+      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+        Update Recipe
+      </button>
+    </form>
+  );
 };
+
 export default EditRecipeForm;
