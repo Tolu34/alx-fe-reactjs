@@ -18,33 +18,33 @@ const Search = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
     setError(false);
     setUsers([]);
 
     try {
-      const searchResults = await searchUsers(formData);
-      const filteredUsers = [];
+      const results = await searchUsers(formData);
 
-      for (const user of searchResults.items) {
-        const userData = await fetchUserData(user.login); // <== Ensures test sees this
+      const filteredUsers = await Promise.all(
+        results.items.map(async (user) => {
+          const userData = await fetchUserData(user.login);
 
-        const matchesLocation =
-          formData.location.trim() === '' ||
-          (userData.location &&
-            userData.location.toLowerCase().includes(formData.location.toLowerCase()));
+          const matchesLocation = formData.location
+            ? userData.location?.toLowerCase().includes(formData.location.toLowerCase())
+            : true;
 
-        const matchesRepoCount =
-          formData.minRepos.trim() === '' ||
-          userData.public_repos >= parseInt(formData.minRepos, 10);
+          const matchesMinRepos = formData.minRepos
+            ? userData.public_repos >= parseInt(formData.minRepos)
+            : true;
 
-        if (matchesLocation && matchesRepoCount) {
-          filteredUsers.push(userData);
-        }
-      }
+          return matchesLocation && matchesMinRepos ? userData : null;
+        })
+      );
 
-      setUsers(filteredUsers);
+      setUsers(filteredUsers.filter(Boolean));
     } catch (err) {
+      console.error(err);
       setError(true);
     } finally {
       setLoading(false);
@@ -87,52 +87,27 @@ const Search = () => {
       </form>
 
       {loading && <p className="text-gray-600">Loading...</p>}
-      {error && <p className="text-red-500">Looks like something went wrong.</p>}
+      {error && <p className="text-red-500">Something went wrong. Please try again.</p>}
 
       <div className="grid gap-4">
         {users.map((user) => (
-          <div key={user.id} className="p-4 border rounded flex items-start gap-4">
+          <div key={user.id} className="p-4 border rounded flex items-center gap-4">
             <img
               src={user.avatar_url}
               alt={user.login}
               className="w-16 h-16 rounded-full"
             />
             <div>
-              <h2 className="text-lg font-semibold">{user.name || user.login}</h2>
-              <p className="text-sm text-gray-600">
-                <strong>Username:</strong> {user.login}
-              </p>
-              <p className="text-sm text-gray-600">
-                <strong>Location:</strong> {user.location || 'Not available'}
-              </p>
-              <p className="text-sm text-gray-600">
-                <strong>Repos:</strong> {user.public_repos}
-              </p>
-              <p className="text-sm text-gray-600">
-                <strong>Followers:</strong> {user.followers}
-              </p>
-              {user.bio && (
-                <p className="text-sm text-gray-600 italic">"{user.bio}"</p>
-              )}
-              {user.blog && (
-                <p className="text-sm">
-                  <a
-                    href={user.blog.startsWith('http') ? user.blog : `https://${user.blog}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-500 underline"
-                  >
-                    Website/Blog
-                  </a>
-                </p>
-              )}
+              <h2 className="text-lg font-semibold">{user.login}</h2>
+              {user.location && <p className="text-sm text-gray-600">📍 {user.location}</p>}
+              <p className="text-sm text-gray-600">📦 {user.public_repos} repositories</p>
               <a
                 href={user.html_url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-blue-600 underline font-medium mt-2 inline-block"
+                className="text-blue-500 underline"
               >
-                View GitHub Profile →
+                View Profile
               </a>
             </div>
           </div>

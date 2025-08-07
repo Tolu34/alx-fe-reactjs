@@ -1,25 +1,22 @@
-const BASE_URL = 'https://api.github.com';
+import axios from 'axios';
 
-/**
- * Search GitHub users by username.
- * @param {Object} params - The search form data.
- * @param {string} params.username - GitHub username to search.
- * @returns {Promise<Object>} GitHub search results.
- */
-export const searchUsers = async ({ username }) => {
-  const query = `q=${encodeURIComponent(username)} in:login&type=Users`;
-  const response = await fetch(`${BASE_URL}/search/users?${query}`);
-  if (!response.ok) throw new Error('Failed to search users');
-  return await response.json();
+const BASE_URL = 'https://api.github.com';
+const token = import.meta.env.VITE_APP_GITHUB_API_KEY;
+
+const headers = {
+  Authorization: `Bearer ${token}`,
 };
 
-/**
- * Fetch full user data by username.
- * @param {string} username - GitHub username.
- * @returns {Promise<Object>} GitHub user data.
- */
-export const fetchUserData = async (username) => {
-  const response = await fetch(`${BASE_URL}/users/${username}`);
-  if (!response.ok) throw new Error(`Failed to fetch user: ${username}`);
-  return await response.json();
+export const searchUsers = async ({ username, location, minRepos }) => {
+  let query = '';
+
+  if (username) query += `${username} in:login`;
+  if (location) query += ` location:${location}`;
+  if (minRepos) query += ` repos:>=${minRepos}`;
+
+  const response = await axios.get(`${BASE_URL}/search/users?q=${encodeURIComponent(query)}`, {
+    headers,
+  });
+
+  return response.data;
 };
