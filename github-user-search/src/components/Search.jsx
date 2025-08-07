@@ -60,7 +60,8 @@ const Search = () => {
           value={formData.username}
           onChange={handleChange}
           placeholder="Username"
-          className="p-2 border rounded"
+          className="col-span-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-semibold"
+
         />
         <input
           type="text"
@@ -68,7 +69,8 @@ const Search = () => {
           value={formData.location}
           onChange={handleChange}
           placeholder="Location"
-          className="p-2 border rounded"
+          className="col-span-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-semibold"
+
         />
         <input
           type="number"
@@ -76,7 +78,8 @@ const Search = () => {
           value={formData.minRepos}
           onChange={handleChange}
           placeholder="Min Repositories"
-          className="p-2 border rounded"
+          className="col-span-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-semibold"
+
         />
         <button
           type="submit"
@@ -86,12 +89,12 @@ const Search = () => {
         </button>
       </form>
 
-      {loading && <p className="text-gray-600">Loading...</p>}
-      {error && <p className="text-red-500">Something went wrong. Please try again.</p>}
+      {loading && <p className="text-gray-600 italic">Loading...</p>}
+      {error && <p className="text-red-500 font-semibold">Something went wrong. Please try again.</p>}
 
       <div className="grid gap-4">
         {users.map((user) => (
-          <div key={user.id} className="p-4 border rounded flex items-center gap-4">
+          <div key={user.id} className="p-4 border border-gray-200 rounded shadow-sm flex items-center gap-4 bg-white">
             <img
               src={user.avatar_url}
               alt={user.login}
