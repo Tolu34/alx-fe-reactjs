@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { searchUsers } from '../services/githubService';
+import { searchUsers, fetchUserData } from '../services/githubService';
 
 const Search = () => {
   const [formData, setFormData] = useState({
@@ -18,14 +18,32 @@ const Search = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     setError(false);
     setUsers([]);
 
     try {
-      const results = await searchUsers(formData);
-      setUsers(results.items); // GitHub returns users in .items for search API
+      const searchResults = await searchUsers(formData);
+      const filteredUsers = [];
+
+      for (const user of searchResults.items) {
+        const userData = await fetchUserData(user.login);
+
+        const matchesLocation =
+          formData.location.trim() === '' ||
+          (userData.location &&
+            userData.location.toLowerCase().includes(formData.location.toLowerCase()));
+
+        const matchesRepoCount =
+          formData.minRepos.trim() === '' ||
+          userData.public_repos >= parseInt(formData.minRepos, 10);
+
+        if (matchesLocation && matchesRepoCount) {
+          filteredUsers.push(userData);
+        }
+      }
+
+      setUsers(filteredUsers);
     } catch (err) {
       setError(true);
     } finally {
@@ -82,6 +100,8 @@ const Search = () => {
               />
               <div>
                 <h2 className="text-lg font-semibold">{user.login}</h2>
+                <p className="text-sm text-gray-600">{user.location || 'No location'}</p>
+                <p className="text-sm text-gray-600">Repos: {user.public_repos}</p>
                 <a
                   href={user.html_url}
                   target="_blank"
