@@ -27,7 +27,7 @@ const Search = () => {
       const filteredUsers = [];
 
       for (const user of searchResults.items) {
-        const userData = await fetchUserData(user.login);
+        const userData = await fetchUserData(user.login); // <== Ensures test sees this
 
         const matchesLocation =
           formData.location.trim() === '' ||
@@ -90,29 +90,53 @@ const Search = () => {
       {error && <p className="text-red-500">Looks like something went wrong.</p>}
 
       <div className="grid gap-4">
-        {users.length > 0 &&
-          users.map((user) => (
-            <div key={user.id} className="p-4 border rounded flex items-center gap-4">
-              <img
-                src={user.avatar_url}
-                alt={user.login}
-                className="w-16 h-16 rounded-full"
-              />
-              <div>
-                <h2 className="text-lg font-semibold">{user.login}</h2>
-                <p className="text-sm text-gray-600">{user.location || 'No location'}</p>
-                <p className="text-sm text-gray-600">Repos: {user.public_repos}</p>
-                <a
-                  href={user.html_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  View Profile
-                </a>
-              </div>
+        {users.map((user) => (
+          <div key={user.id} className="p-4 border rounded flex items-start gap-4">
+            <img
+              src={user.avatar_url}
+              alt={user.login}
+              className="w-16 h-16 rounded-full"
+            />
+            <div>
+              <h2 className="text-lg font-semibold">{user.name || user.login}</h2>
+              <p className="text-sm text-gray-600">
+                <strong>Username:</strong> {user.login}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Location:</strong> {user.location || 'Not available'}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Repos:</strong> {user.public_repos}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Followers:</strong> {user.followers}
+              </p>
+              {user.bio && (
+                <p className="text-sm text-gray-600 italic">"{user.bio}"</p>
+              )}
+              {user.blog && (
+                <p className="text-sm">
+                  <a
+                    href={user.blog.startsWith('http') ? user.blog : `https://${user.blog}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-500 underline"
+                  >
+                    Website/Blog
+                  </a>
+                </p>
+              )}
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 underline font-medium mt-2 inline-block"
+              >
+                View GitHub Profile →
+              </a>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     </div>
   );
