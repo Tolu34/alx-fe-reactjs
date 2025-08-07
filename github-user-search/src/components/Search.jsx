@@ -29,7 +29,7 @@ const Search = () => {
 
     return (
         <div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input
                 type="text"
                 value={username}
