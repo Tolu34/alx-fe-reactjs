@@ -2,7 +2,7 @@
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-4 md:p-8">
         <div className="bg-white shadow-lg rounded-lg flex flex-col items-center text-center
-        p-4 sm:p-4 md:p-8  md:max-w-sm w-full ">
+        p-4 sm:p-4 md:p-8 max-w-xs md:max-w-sm w-full ">
 
         
       <img 
