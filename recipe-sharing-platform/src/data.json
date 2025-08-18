@@ -1,0 +1,48 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Spaghetti Carbonara",
+      "description": "A classic Italian pasta dish with eggs, hard cheese, cured pork, and black pepper.",
+      "image": "/images/spaghetti.jpg",
+      "ingredients": [
+        "200g spaghetti",
+        "100g guanciale (or pancetta)",
+        "2 large eggs",
+        "50g Pecorino Romano cheese",
+        "Black pepper"
+      ],
+      "instructions": [
+        "Cook spaghetti according to package directions.",
+        "While pasta cooks, crisp the guanciale in a pan.",
+        "Whisk eggs and grated cheese in a bowl.",
+        "Drain pasta, reserving some pasta water.",
+        "Combine pasta, egg mixture, and guanciale off the heat. Stir quickly to create a creamy sauce, adding pasta water if needed."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Classic Tiramisu",
+      "description": "A coffee-flavored Italian dessert made of ladyfingers dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese.",
+      "image": "/images/tiramisu.jpg",
+      "ingredients": [
+        "250g mascarpone cheese",
+        "2 large eggs",
+        "50g sugar",
+        "1 cup strong coffee",
+        "1 pack ladyfingers",
+        "Cocoa powder"
+      ],
+      "instructions": [
+        "Brew coffee and let it cool.",
+        "Separate egg whites and yolks.",
+        "Beat yolks with sugar until creamy, then mix with mascarpone.",
+        "Beat egg whites to stiff peaks and fold into the mascarpone mixture.",
+        "Quickly dip ladyfingers in coffee and arrange in a dish.",
+        "Layer with the mascarpone cream. Repeat layers.",
+        "Chill for at least 4 hours.",
+        "Dust with cocoa powder before serving."
+      ]
+    }
+  ]
+}
