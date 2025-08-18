@@ -11,7 +11,7 @@ const AddRecipeForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
