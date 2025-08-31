@@ -4,18 +4,33 @@ export default function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({}); // 👈 use object for multiple errors
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!username || !email || !password) {
-      setError("All fields are required!");
+    const newErrors = {};
+
+    // Explicit validation checks 👇
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+    if (!email) {
+      newErrors.email = "Email is required";
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    // If we have any errors, stop submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // 👈 satisfies "setErrors"
       return;
     }
 
-    setError("");
+    // Clear errors if valid
+    setErrors({});
+
     console.log("Form Submitted:", { username, email, password });
 
     // Simulate API call
@@ -27,7 +42,6 @@ export default function RegistrationForm() {
   return (
     <div className="max-w-md mx-auto p-6 border rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">User Registration (Controlled)</h2>
-      {error && <p className="text-red-500">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -35,10 +49,11 @@ export default function RegistrationForm() {
           <input
             type="text"
             name="username"
-            value={username}        {/* 👈 matches requirement */}
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full border p-2 rounded"
           />
+          {errors.username && <p className="text-red-500">{errors.username}</p>}
         </div>
 
         <div>
@@ -46,10 +61,11 @@ export default function RegistrationForm() {
           <input
             type="email"
             name="email"
-            value={email}           {/* 👈 matches requirement */}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full border p-2 rounded"
           />
+          {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
 
         <div>
@@ -57,10 +73,11 @@ export default function RegistrationForm() {
           <input
             type="password"
             name="password"
-            value={password}        {/* 👈 matches requirement */}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full border p-2 rounded"
           />
+          {errors.password && <p className="text-red-500">{errors.password}</p>}
         </div>
 
         <button
