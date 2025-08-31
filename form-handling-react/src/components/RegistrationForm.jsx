@@ -4,7 +4,7 @@ export default function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({}); // 👈 use object for multiple errors
+  const [errors, setErrors] = useState({}); //  use object for multiple errors
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ export default function RegistrationForm() {
 
     // If we have any errors, stop submission
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors); // 👈 satisfies "setErrors"
+      setErrors(newErrors); //  satisfies "setErrors"
       return;
     }
 
