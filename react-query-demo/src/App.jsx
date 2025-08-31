@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import PostsComponent from "./components/PostsComponent";
 
-export default function App() {
-  const [showPosts, setShowPosts] = useState(true);
+// Create a QueryClient instance
+const queryClient = new QueryClient();
 
+function App() {
   return (
-    <div style={{ padding: 16 }}>
-      <h1>React Query Demo</h1>
-
-      <button onClick={() => setShowPosts(s => !s)}>
-        {showPosts ? "Hide" : "Show"} PostsComponent
-      </button>
-
-      <p style={{ opacity: 0.7 }}>
-        Toggle the component to see cached data re-appear instantly.
-      </p>
-
-      {showPosts && <PostsComponent />}
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-4">React Query Demo</h1>
+        <PostsComponent />
+      </div>
+    </QueryClientProvider>
   );
 }
+
+export default App;
