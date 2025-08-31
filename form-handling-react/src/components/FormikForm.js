@@ -1,24 +1,28 @@
 import React from "react";
-import { formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik"; 
 import * as Yup from "yup";
 
 // Validation Schema
 const validationSchema = Yup.object({
   username: Yup.string().required("Username is required"),
-  email: Yup.string().email("Invalid email format").required("Email is required"),
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
 });
 
-export default function formikForm() {
+export default function FormikForm() {
   return (
     <div className="max-w-md mx-auto p-6 border rounded-lg shadow-md mt-8">
       <h2 className="text-xl font-bold mb-4">User Registration (Formik + Yup)</h2>
 
-      <formik
+      <Formik
         initialValues={{ username: "", email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          console.log("formik Submitted:", values);
+          console.log("Formik Submitted:", values);
           setTimeout(() => {
             alert("User registered successfully!");
             resetForm();
@@ -79,7 +83,7 @@ export default function formikForm() {
             </button>
           </Form>
         )}
-      </formik>
+      </Formik>
     </div>
   );
 }
