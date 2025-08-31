@@ -1,56 +1,48 @@
 import React from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 
 async function fetchPosts() {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
   return res.json();
 }
 
 export default function PostsComponent() {
-  const queryClient = useQueryClient();
-
   const {
     data,
+    error,
     isLoading,
     isError,
-    error,
-    isFetching,   // true during background refetch
-    refetch
-  } = useQuery({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
-    // You can set per-query options here too if you like:
-    // staleTime: 60_000,
-    // gcTime: 5 * 60_000,
+    isFetching,
+    refetch,
+  } = useQuery("posts", fetchPosts, {
+    cacheTime: 1000 * 60 * 5, // cache data for 5 minutes
+    staleTime: 1000 * 30, // data considered fresh for 30 seconds
+    refetchOnWindowFocus: false, // don’t refetch on window focus
+    keepPreviousData: true, // keep old data when fetching new
   });
 
-  if (isLoading) return <p>Loading posts…</p>;
-  if (isError) return <p style={{ color: "crimson" }}>Error: {error.message}</p>;
+  if (isLoading) return <p>Loading posts...</p>;
+  if (isError) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
-    <div style={{ marginTop: 16 }}>
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <button onClick={() => refetch()}>Refetch now</button>
+    <div>
+      <button
+        onClick={() => refetch()}
+        className="mb-4 bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        Refetch Posts
+      </button>
 
-        <button
-          onClick={() => {
-            // Simulate “data changed elsewhere”: mark it stale
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
-          }}
-        >
-          Invalidate cache (mark stale)
-        </button>
+      {isFetching && <p className="text-gray-500">Updating...</p>}
 
-        <span style={{ fontSize: 12, opacity: 0.7 }}>
-          {isFetching ? "background updating…" : "idle"}
-        </span>
-      </div>
-
-      <ul style={{ marginTop: 12 }}>
-        {data.slice(0, 10).map(p => (
-          <li key={p.id} style={{ marginBottom: 8 }}>
-            <strong>#{p.id}</strong> {p.title}
+      <ul className="space-y-2">
+        {data.map((post) => (
+          <li key={post.id} className="border p-2 rounded">
+            <h3 className="font-semibold">{post.title}</h3>
+            <p>{post.body}</p>
           </li>
         ))}
       </ul>
